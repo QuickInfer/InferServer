@@ -24,7 +24,8 @@ set(SOURCES
     src/main.cpp
     src/Worker.cpp
     src/Engine.cpp
-    #src/ConfigParser.cpp
+    src/ConfigParser.cpp
+    src/PoolMemoryManager.cpp
     #src/KVCacheManager.cpp
     src/CUDA/CUDAWorker.cu
     src/CUDA/CUDAMemoryManager.cu

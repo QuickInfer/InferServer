@@ -2,7 +2,7 @@
 #include "WorkerFactory.h"
 
 
-Engine::Engine(int num_workers, DeviceType device_type) : num_workers_(num_workers), device_type_(device_type), request_id_counter_(0)
+Engine::Engine(int num_workers, DeviceType device_type, const std::string& model_config_path) : num_workers_(num_workers), device_type_(device_type), request_id_counter_(0)
 {
     if (num_workers <= 0)
         throw std::invalid_argument("Number of workers must be positive.");
@@ -11,6 +11,10 @@ Engine::Engine(int num_workers, DeviceType device_type) : num_workers_(num_worke
     {
         workers_.emplace_back(create_worker(device_type, i, this));
     }
+
+    // 解析模型参数并打印
+    this->config_parser_.loadFromFile(model_config_path);
+    this->config_parser_.printConfig();
 }
 
 Engine::~Engine()

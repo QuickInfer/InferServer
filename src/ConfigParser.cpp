@@ -1,11 +1,9 @@
       
-#include "ModelConfig.hpp"
+#include "ConfigParser.h"
 #include <fstream>
 #include <iostream>
 
-namespace llm_frame {
-
-bool ModelConfig::loadFromFile(const std::string& filepath) {
+bool ConfigParser::loadFromFile(const std::string& filepath) {
     std::ifstream file_stream(filepath);
     if (!file_stream.is_open()) {
         std::cerr << "Error: Cannot open config file: " << filepath << std::endl;
@@ -17,9 +15,9 @@ bool ModelConfig::loadFromFile(const std::string& filepath) {
         nlohmann::json json_obj;
         file_stream >> json_obj;
 
-        // 2. 使用 nlohmann/json 的 from_json 功能将 json 对象转换为 ModelConfig 对象
+        // 2. 使用 nlohmann/json 的 from_json 功能将 json 对象转换为 ConfigParser 对象
         //    我们之前定义的 NLOHMANN_DEFINE_TYPE_INTRUSIVE 宏使得这行代码能够工作
-        *this = json_obj.get<ModelConfig>();
+        *this = json_obj.get<ConfigParser>();
 
     } catch (const nlohmann::json::parse_error& e) {
         std::cerr << "Error: JSON parsing error in file " << filepath << ":\n"
@@ -35,7 +33,7 @@ bool ModelConfig::loadFromFile(const std::string& filepath) {
     return true;
 }
 
-void ModelConfig::printConfig() const {
+void ConfigParser::printConfig() const {
     std::cout << "--- Model Configuration ---" << std::endl;
     std::cout << "Model Type: " << model_type << std::endl;
     std::cout << "Hidden Size: " << hidden_size << std::endl;
@@ -46,7 +44,5 @@ void ModelConfig::printConfig() const {
     std::cout << "Torch DType: " << torch_dtype << std::endl;
     std::cout << "-------------------------" << std::endl;
 }
-
-} // namespace llm_frame
 
     
